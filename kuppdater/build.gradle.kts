@@ -3,6 +3,10 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("maven-publish")
+
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android") version "2.46" apply true
 }
 
 android {
@@ -46,6 +50,17 @@ android {
 }
 
 dependencies {
+    implementation(libs.moshi)
+    implementation (libs.converter.moshi)
+    ksp(libs.moshi.kotlin.codegen)
+
+    implementation (libs.sandwich)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.retrofit)
+
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)

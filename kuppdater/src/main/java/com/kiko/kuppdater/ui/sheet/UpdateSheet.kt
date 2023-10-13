@@ -26,7 +26,7 @@ import com.kiko.kuppdater.data.states.rememberUpdateSheetLoading
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateSheet(updateSheetState: UpdateSheetState = rememberUpdateSheet()) {
+fun UpdateSheet(updateSheetState: UpdateSheetState) {
     var updateState by remember { mutableStateOf(UpdateState.UpdateIdle) }
 
     Box(
