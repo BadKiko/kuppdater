@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -15,16 +16,10 @@ import javax.inject.Singleton
 object NetworkModule {
     @Singleton
     @Provides
-    fun provideRetrofit(sessionManager: SessionManager): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideSessionManager(sharedPreferences: SharedPreferences): SessionManager {
-        return SessionManager(sharedPreferences = sharedPreferences)
     }
 }

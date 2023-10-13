@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -19,31 +21,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kiko.kuppdater.data.states.UpdateSheetState
 import com.kiko.kuppdater.data.states.UpdateState
 import com.kiko.kuppdater.data.states.rememberUpdateSheet
 import com.kiko.kuppdater.data.states.rememberUpdateSheetLoading
+import com.kiko.kuppdater.ui.viewmodel.UpdateSheetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateSheet(updateSheetState: UpdateSheetState) {
-    var updateState by remember { mutableStateOf(UpdateState.UpdateIdle) }
+fun UpdateSheet(
+    updateSheetState: UpdateSheetState,
+    updateSheetViewModel: UpdateSheetViewModel = hiltViewModel()
+) {
+    updateSheetViewModel.getUpdateData(updateSheetState.url) {
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(0.5f)),
-        contentAlignment = Alignment.BottomCenter
-    ) {
+    }
+
+    AlertDialog(onDismissRequest = {}) {
         Card(
             shape = RoundedCornerShape(
-                topStart = 16.dp,
-                topEnd = 16.dp,
-                bottomEnd = 0.dp,
-                bottomStart = 0.dp
+                16.dp
             )
         ) {
-            if (updateState is UpdateState.UpdateIdle) {
+            if (updateSheetViewModel.updateState is UpdateState.UpdateIdle) {
                 UpdateDescriptionSheet(updateSheetState.descriptionState)
             }
         }

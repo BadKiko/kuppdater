@@ -1,9 +1,6 @@
-package com.kiko.kuppdater.data.update.json.remote.dto
+package com.kiko.kuppdater.domain.update.json.entity
 
-import com.squareup.moshi.Json
-
-@Json
-data class UpdateJsonResponse(
+data class UpdateJsonEntity(
     val latestVersion: String,
     val latestVersionCode: Long,
     val url: String,
