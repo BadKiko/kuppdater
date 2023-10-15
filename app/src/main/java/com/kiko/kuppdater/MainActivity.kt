@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.kiko.kuppdater.data.states.rememberUpdateSheet
 import com.kiko.kuppdater.ui.sheet.UpdateSheet
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val updateSheet =
                         rememberUpdateSheet(jsonUrl = "https://wearssl.ru/update.json")
-                    UpdateSheet(updateSheet)
+                    UpdateSheet(LocalContext.current, updateSheet)
                 }
             }
         }
