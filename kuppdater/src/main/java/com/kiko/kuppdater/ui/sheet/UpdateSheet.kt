@@ -6,6 +6,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.kiko.kuppdater.data.states.UpdateSheetState
@@ -19,11 +20,16 @@ fun UpdateSheet(
     context: Context,
     updateSheetState: UpdateSheetState,
 ) {
-    val updateSheetViewModel: UpdateSheetViewModel = UpdateSheetViewModel()
+    val updateSheetViewModel = remember { UpdateSheetViewModel() }
 
-    updateSheetViewModel.getUpdateData(updateSheetState.url, context)
+    val needUpdate = context.packageManager.getPackageInfo(
+        context.packageName,
+        0
+    ).versionCode < updateSheetViewModel.updateJsonEntity.latestVersionCode
 
-    if (updateSheetViewModel.needUpdate) {
+    if (
+        needUpdate
+    ) {
         AlertDialog(onDismissRequest = {}) {
             Card(
                 shape = RoundedCornerShape(
@@ -67,6 +73,8 @@ fun UpdateSheet(
                 }
             }
         }
+    } else {
+        updateSheetViewModel.getUpdateData(updateSheetState.url, context)
     }
 }
 

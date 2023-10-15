@@ -23,36 +23,30 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-internal class UpdateSheetViewModel() : ViewModel() {
+internal class UpdateSheetViewModel : ViewModel() {
     var updateState by mutableStateOf<UpdateState>(UpdateState.UpdateIdle)
-        private set
-
-    var needUpdate by mutableStateOf(false)
         private set
 
     var downloadProgress by mutableFloatStateOf(0f)
         private set
 
-    var updateJsonEntity = UpdateJsonEntity.create()
+    var updateJsonEntity by mutableStateOf(UpdateJsonEntity.create())
 
     fun getUpdateData(url: String, context: Context) {
-        viewModelScope.launch {
-            UpdateJsonUseCase().getUpdateData(url).collect { response ->
-                when (response) {
-                    is ApiResponse.Failure -> {
-                        updateState = UpdateState.UpdateFailed(response.message())
-                    }
+        if (updateJsonEntity.url == "") {
+            viewModelScope.launch {
+                UpdateJsonUseCase().getUpdateData(url).collect { response ->
+                    when (response) {
+                        is ApiResponse.Failure -> {
+                            updateState = UpdateState.UpdateFailed(response.message())
+                        }
 
-                    is ApiResponse.Success -> {
-                        response.data.let {
-                            needUpdate = context.packageManager.getPackageInfo(
-                                context.packageName,
-                                0
-                            ).versionCode < it.latestVersionCode
-
-                            updateJsonEntity = UpdateJsonEntity(
-                                it.latestVersion, it.latestVersionCode, it.url, it.releaseNotes
-                            )
+                        is ApiResponse.Success -> {
+                            response.data.let {
+                                updateJsonEntity = UpdateJsonEntity(
+                                    it.latestVersion, it.latestVersionCode, it.url, it.releaseNotes
+                                )
+                            }
                         }
                     }
                 }
