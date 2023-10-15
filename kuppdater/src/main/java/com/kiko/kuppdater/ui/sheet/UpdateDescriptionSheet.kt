@@ -18,7 +18,7 @@ import com.kiko.kuppdater.data.states.UpdateSheetDescriptionState
 import com.kiko.kuppdater.data.states.rememberUpdateSheetDescription
 
 @Composable
-fun UpdateDescriptionSheet(updateSheetDescriptionState: UpdateSheetDescriptionState) {
+fun UpdateDescriptionSheet(updateSheetDescriptionState: UpdateSheetDescriptionState, onClickInstall: () -> Unit) {
     Column(
         modifier = Modifier.padding(16.dp, 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -29,18 +29,21 @@ fun UpdateDescriptionSheet(updateSheetDescriptionState: UpdateSheetDescriptionSt
         Spacer(modifier = Modifier.padding(8.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (updateSheetDescriptionState.isCancelable) {
-                Button(modifier = Modifier.weight(1f), onClick = {}) {
+                Button(modifier = Modifier.weight(1f), onClick = {TODO()}) {
                     Text(updateSheetDescriptionState.dialogCancelButton)
                 }
             }
 
-            Button(modifier = Modifier.weight(1f), onClick = {}) {
+            Button(modifier = Modifier.weight(1f), onClick = {
+                onClickInstall()
+            }) {
                 Text(updateSheetDescriptionState.dialogInstallButton)
             }
         }
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun UpdateDescriptionSheetPreview() {
@@ -51,4 +54,4 @@ fun UpdateDescriptionSheetPreview() {
 @Composable
 fun UpdateDescriptionSheetPreviewCancable() {
     UpdateDescriptionSheet(updateSheetDescriptionState = rememberUpdateSheetDescription(isCancelable = true))
-}
+}*/

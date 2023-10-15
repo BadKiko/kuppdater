@@ -1,11 +1,12 @@
 package com.kiko.kuppdater.data.update.json.remote.dto
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Json
+@JsonClass(generateAdapter = true)
 data class UpdateJsonResponse(
-    val latestVersion: String,
-    val latestVersionCode: Long,
-    val url: String,
-    val releaseNotes: List<String>,
+    @Json val latestVersion: String,
+    @Json val latestVersionCode: Long,
+    @Json val url: String,
+    @Json val releaseNotes: List<String>,
 )

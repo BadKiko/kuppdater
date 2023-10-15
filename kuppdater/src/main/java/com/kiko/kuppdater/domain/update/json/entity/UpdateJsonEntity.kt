@@ -6,3 +6,10 @@ data class UpdateJsonEntity(
     val url: String,
     val releaseNotes: List<String>,
 )
+{
+    companion object{
+        fun create() : UpdateJsonEntity{
+            return UpdateJsonEntity("", 0L, "", listOf(""))
+        }
+    }
+}
