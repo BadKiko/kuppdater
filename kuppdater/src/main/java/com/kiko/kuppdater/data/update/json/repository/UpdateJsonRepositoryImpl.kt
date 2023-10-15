@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class UpdateJsonRepositoryImpl :
+internal class UpdateJsonRepositoryImpl :
     UpdateJsonRepository {
     override fun getUpdate(url: String, updateJsonApi: UpdateJsonApi): Flow<ApiResponse<UpdateJsonResponse>> {
         return flow {

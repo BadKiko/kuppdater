@@ -1,5 +1,6 @@
 package com.kiko.kuppdater.ui.sheet
 
+import android.content.Context
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -15,10 +16,11 @@ import com.kiko.kuppdater.ui.viewmodel.UpdateSheetViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateSheet(
+    context: Context,
     updateSheetState: UpdateSheetState,
-    updateSheetViewModel: UpdateSheetViewModel = UpdateSheetViewModel()
 ) {
-    val context = LocalContext.current
+    val updateSheetViewModel: UpdateSheetViewModel = UpdateSheetViewModel()
+
     updateSheetViewModel.getUpdateData(updateSheetState.url, context)
 
     if (updateSheetViewModel.needUpdate) {

@@ -6,7 +6,7 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 
-object ApkInstaller {
+internal object ApkInstaller {
     fun installApplication(context: Context, file: File) {
         val fileUri = FileProvider.getUriForFile(
             context,

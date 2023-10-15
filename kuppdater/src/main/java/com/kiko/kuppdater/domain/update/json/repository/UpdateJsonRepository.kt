@@ -5,6 +5,6 @@ import com.kiko.kuppdater.data.update.json.remote.dto.UpdateJsonResponse
 import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
-interface UpdateJsonRepository {
+internal interface UpdateJsonRepository {
     fun getUpdate(url: String, updateJsonApi: UpdateJsonApi) : Flow<ApiResponse<UpdateJsonResponse>>
 }

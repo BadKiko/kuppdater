@@ -21,7 +21,7 @@ import com.kiko.kuppdater.data.states.UpdateSheetLoadingState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateProcessSheet(updateSheetLoadingState: UpdateSheetLoadingState, downloadPercent: Float) {
+internal fun UpdateProcessSheet(updateSheetLoadingState: UpdateSheetLoadingState, downloadPercent: Float) {
 
     Column(
         modifier = Modifier.padding(16.dp, 24.dp),

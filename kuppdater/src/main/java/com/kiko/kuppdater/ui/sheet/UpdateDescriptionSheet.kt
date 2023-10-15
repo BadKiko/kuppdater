@@ -18,7 +18,7 @@ import com.kiko.kuppdater.data.states.UpdateSheetDescriptionState
 import com.kiko.kuppdater.data.states.rememberUpdateSheetDescription
 
 @Composable
-fun UpdateDescriptionSheet(updateSheetDescriptionState: UpdateSheetDescriptionState, onClickInstall: () -> Unit) {
+internal fun UpdateDescriptionSheet(updateSheetDescriptionState: UpdateSheetDescriptionState, onClickInstall: () -> Unit) {
     Column(
         modifier = Modifier.padding(16.dp, 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

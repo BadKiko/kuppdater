@@ -16,7 +16,7 @@ import com.kiko.kuppdater.data.states.UpdateSheetLoadingState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateInstallingSheet(updateSheetLoadingState: UpdateSheetLoadingState) {
+internal fun UpdateInstallingSheet(updateSheetLoadingState: UpdateSheetLoadingState) {
     Column(
         modifier = Modifier.padding(16.dp, 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

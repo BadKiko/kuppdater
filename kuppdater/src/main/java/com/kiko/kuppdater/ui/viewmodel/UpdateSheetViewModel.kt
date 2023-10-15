@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-class UpdateSheetViewModel() : ViewModel() {
+internal class UpdateSheetViewModel() : ViewModel() {
     var updateState by mutableStateOf<UpdateState>(UpdateState.UpdateIdle)
         private set
 

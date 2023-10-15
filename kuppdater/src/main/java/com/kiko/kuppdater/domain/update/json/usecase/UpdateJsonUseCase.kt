@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class UpdateJsonUseCase {
+internal class UpdateJsonUseCase {
     fun getUpdateData(url: String): Flow<ApiResponse<UpdateJsonResponse>> {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
