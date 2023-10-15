@@ -2,6 +2,7 @@ package com.kiko.kuppdater.ui.sheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -23,6 +24,7 @@ fun UpdateInstallingSheet(updateSheetLoadingState: UpdateSheetLoadingState) {
     ) {
         Text(updateSheetLoadingState.dialogTitle, style = MaterialTheme.typography.titleLarge)
         Text(updateSheetLoadingState.dialogContent)
+        Spacer(modifier = Modifier.padding(16.dp))
         LinearProgressIndicator(modifier = Modifier.padding(24.dp, 0.dp))
     }
 }

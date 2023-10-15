@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.kiko.kuppdater.data.states.UpdateSheetState
 import com.kiko.kuppdater.data.states.UpdateState
+import com.kiko.kuppdater.data.states.rememberUpdateSheetDescription
 import com.kiko.kuppdater.ui.viewmodel.UpdateSheetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,27 +19,50 @@ fun UpdateSheet(
     updateSheetViewModel: UpdateSheetViewModel = UpdateSheetViewModel()
 ) {
     val context = LocalContext.current
+    updateSheetViewModel.getUpdateData(updateSheetState.url, context)
 
-    AlertDialog(onDismissRequest = {}) {
-        Card(
-            shape = RoundedCornerShape(
-                16.dp
-            )
-        ) {
-            when (updateSheetViewModel.updateState) {
-                is UpdateState.UpdateFailed -> TODO()
-                UpdateState.UpdateIdle -> UpdateDescriptionSheet(
-                    updateSheetDescriptionState = updateSheetState.descriptionState,
-                    onClickInstall = {
-                        updateSheetViewModel.getUpdateData(updateSheetState.url, context)
-                    })
-
-                UpdateState.UpdateLoading -> UpdateProcessSheet(
-                    updateSheetLoadingState = updateSheetState.loadingState,
-                    updateSheetViewModel.downloadProgress
+    if (updateSheetViewModel.needUpdate) {
+        AlertDialog(onDismissRequest = {}) {
+            Card(
+                shape = RoundedCornerShape(
+                    16.dp
                 )
+            ) {
+                when (updateSheetViewModel.updateState) {
+                    is UpdateState.UpdateFailed -> UpdateDescriptionSheet(
+                        updateSheetDescriptionState = rememberUpdateSheetDescription(
+                            dialogTitle = "Ошибка",
+                            dialogContent = (updateSheetViewModel.updateState as UpdateState.UpdateFailed).errorMsg,
+                            dialogInstallButton = "Ок",
+                        ),
+                        onClickInstall = {
+                            updateSheetViewModel.updateSheetState(UpdateState.UpdateIdle)
+                        }
+                    )
 
-                is UpdateState.UpdateSuccess -> UpdateInstallingSheet(updateSheetLoadingState = updateSheetState.loadingState)
+                    UpdateState.UpdateIdle -> UpdateDescriptionSheet(
+                        updateSheetDescriptionState = updateSheetState.descriptionState.copy(
+                            dialogContent = updateSheetState.descriptionState.dialogContent + "\n\n${
+                                updateSheetViewModel.updateJsonEntity.releaseNotes.joinToString("\n")
+                            }"
+                        ),
+                        onClickInstall = {
+                            updateSheetViewModel.updateSheetState(UpdateState.UpdateLoading)
+
+                            updateSheetViewModel.downloadApk(
+                                updateSheetViewModel.updateJsonEntity.url,
+                                context
+                            )
+
+                        })
+
+                    UpdateState.UpdateLoading -> UpdateProcessSheet(
+                        updateSheetLoadingState = updateSheetState.loadingState,
+                        updateSheetViewModel.downloadProgress
+                    )
+
+                    is UpdateState.UpdateSuccess -> UpdateInstallingSheet(updateSheetLoadingState = updateSheetState.loadingState)
+                }
             }
         }
     }

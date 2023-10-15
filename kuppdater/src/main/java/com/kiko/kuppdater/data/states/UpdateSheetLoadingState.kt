@@ -11,7 +11,7 @@ data class UpdateSheetLoadingState(
 @Composable
 fun rememberUpdateSheetLoading(
     dialogTitle: String = "Установка",
-    dialogContent: String = "Производится установка:"
+    dialogContent: String = "Производится установка"
 ): UpdateSheetLoadingState {
     return remember(
         dialogTitle,

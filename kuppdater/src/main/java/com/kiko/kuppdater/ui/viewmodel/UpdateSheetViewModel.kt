@@ -27,6 +27,9 @@ class UpdateSheetViewModel() : ViewModel() {
     var updateState by mutableStateOf<UpdateState>(UpdateState.UpdateIdle)
         private set
 
+    var needUpdate by mutableStateOf(false)
+        private set
+
     var downloadProgress by mutableFloatStateOf(0f)
         private set
 
@@ -34,9 +37,6 @@ class UpdateSheetViewModel() : ViewModel() {
 
     fun getUpdateData(url: String, context: Context) {
         viewModelScope.launch {
-
-            updateState = UpdateState.UpdateLoading
-
             UpdateJsonUseCase().getUpdateData(url).collect { response ->
                 when (response) {
                     is ApiResponse.Failure -> {
@@ -44,8 +44,12 @@ class UpdateSheetViewModel() : ViewModel() {
                     }
 
                     is ApiResponse.Success -> {
-                        downloadApk(response.data.url, context)
                         response.data.let {
+                            needUpdate = context.packageManager.getPackageInfo(
+                                context.packageName,
+                                0
+                            ).versionCode < it.latestVersionCode
+
                             updateJsonEntity = UpdateJsonEntity(
                                 it.latestVersion, it.latestVersionCode, it.url, it.releaseNotes
                             )
@@ -56,7 +60,7 @@ class UpdateSheetViewModel() : ViewModel() {
         }
     }
 
-    private fun downloadApk(url: String, context: Context) {
+    fun downloadApk(url: String, context: Context) {
         val kDownloader = KDownloader.create(context)
         val file =
             File(
@@ -74,5 +78,9 @@ class UpdateSheetViewModel() : ViewModel() {
 
             ApkInstaller.installApplication(context, file)
         }, onError = { UpdateState.UpdateFailed(it) })
+    }
+
+    fun updateSheetState(state: UpdateState) {
+        updateState = state
     }
 }

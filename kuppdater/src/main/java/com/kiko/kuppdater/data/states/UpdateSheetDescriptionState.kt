@@ -14,7 +14,7 @@ data class UpdateSheetDescriptionState(
 @Composable
 fun rememberUpdateSheetDescription(
     dialogTitle: String = "Обновление",
-    dialogContent: String = "Список изменений:",
+    dialogContent: String = "Список изменений",
     dialogInstallButton: String = "Установить",
     dialogCancelButton: String = "Отмена",
     isCancelable: Boolean = false
